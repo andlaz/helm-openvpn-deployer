@@ -29,7 +29,8 @@ The below command will:
 3. Have supervisord daemonize an openvpn client
 
 ```bash
-OVPN_DIR=$HOME/vpn-config; OVPN=cluster.ovpn;
+export OVPN_DIR=$HOME/vpn-config && \
+export OVPN=cluster.ovpn && \
 docker run --cap-add=NET_ADMIN -v $OVPN_DIR:/vpn -e OVPN=/vpn/$OVPN -ti --rm andlaz/helm-openvpn-deployer /bin/bash -c '/create-device.sh && supervisord -c /openvpn-client.conf && sleep 3 && tail -f /var/log/openvpn.log'
 ```
 
@@ -102,8 +103,6 @@ export K8S_ENDPOINT=$(kubectl config view -o jsonpath="{.clusters[?(@.name == \"
 
 # Set API endpoint explicitly
 # export K8S_ENDPOINT=https://1.2.3.4:6443 && \
-OVPN_DIR=$HOME/vpn-config; \
-OVPN=cluster.ovpn; \
 docker run -ti --rm --cap-add=NET_ADMIN \
 -v $K8S_CERT_DIR:/cluster -v $OVPN_DIR:/vpn \
 -e OVPN=/vpn/$OVPN \
