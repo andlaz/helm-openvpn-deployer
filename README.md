@@ -56,8 +56,8 @@ export NAMESPACE='my-namespace' && \
 export K8S_CERT_DIR=/tmp/cluster && \
 export SERVICE_ACCOUNT=tiller-deployer && \
 export SECRET_NAME=$(kubectl get serviceaccount $SERVICE_ACCOUNT -n $NAMESPACE -o json | jq -r .secrets[].name) && \
-mkdir -p $K8S_CERT_DIR && \
 export TOKEN=$(kubectl get secret $SECRET_NAME -n $NAMESPACE -o json | jq -r '.data["token"]' | base64 -D) && \
+mkdir -p $K8S_CERT_DIR && \
 kubectl get secret $SECRET_NAME -n $NAMESPACE -o json | jq -r '.data["ca.crt"]' | base64 -D > $K8S_CERT_DIR/ca.crt
 ```
 
